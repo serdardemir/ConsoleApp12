@@ -6,6 +6,10 @@ on:
       - '*'  # Tüm dallarda yapılan push'lar tetikler
     paths:
       - '**/*'  # Tüm dosya değişiklikleri workflow'u tetikler
+env:
+  PROJECT_PATH: 'ConsoleApp12/ConsoleApp12.csproj'
+  PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}\output
+  NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
 
 jobs:
   build-pack-publish:
@@ -39,7 +43,7 @@ jobs:
         run: dotnet build ConsoleApp12/ConsoleApp12.csproj --configuration Release --no-restore
 
       - name: Pack NuGet Package
-        run: dotnet pack ConsoleApp12/ConsoleApp12.csproj --configuration Release --no-build -o ./nupkg /p:PackageVersion=${{ env.VERSION }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
 
       - name: Publish NuGet Package
         run: dotnet nuget push ./nupkg/*.nupkg --source "github" --api-key ${{ secrets.GH_TOKEN }}
