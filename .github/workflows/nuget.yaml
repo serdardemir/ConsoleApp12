@@ -24,25 +24,14 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Extract Version from Git Tag or Branch
-        id: extract_version
-        run: |
-          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/v}  # Tagden versiyon al
-          elif [[ "${GITHUB_REF}" == refs/heads/main ]]; then
-            VERSION="1.0.0"  # Main branch için
-          else
-            VERSION="dev"  # Diğer branchler için
-          fi
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Get version from Git tag
+        id: version
+        run: echo "VERSION=$(git describe --tags --abbrev=0 | sed 's/^v//')" >> $GITHUB_ENV
+    
 
       - name: Restore Dependencies
         run: dotnet restore ConsoleApp12/ConsoleApp12.csproj
 
-      - name: 'Get Version'
-        id: version
-        uses: battila7/get-version-action@v2
-        
       - name: Build LinqApi Project
         run: dotnet build ConsoleApp12/ConsoleApp12.csproj --configuration Release --no-restore
 
