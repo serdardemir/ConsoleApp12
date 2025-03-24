@@ -47,7 +47,8 @@ jobs:
         run: dotnet build ConsoleApp12/ConsoleApp12.csproj --configuration Release --no-restore
 
       - name: Pack NuGet Package
-        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORversionY }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
+
 
       - name: Publish NuGet Package
         run: dotnet nuget push ./nupkg/*.nupkg --source "github" --api-key ${{ secrets.GH_TOKEN }}
