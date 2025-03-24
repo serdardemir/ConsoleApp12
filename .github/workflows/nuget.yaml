@@ -39,11 +39,15 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore ConsoleApp12/ConsoleApp12.csproj
 
+      - name: 'Get Version'
+        id: version
+        uses: battila7/get-version-action@v2
+        
       - name: Build LinqApi Project
         run: dotnet build ConsoleApp12/ConsoleApp12.csproj --configuration Release --no-restore
 
       - name: Pack NuGet Package
-        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORversionY }}
 
       - name: Publish NuGet Package
         run: dotnet nuget push ./nupkg/*.nupkg --source "github" --api-key ${{ secrets.GH_TOKEN }}
