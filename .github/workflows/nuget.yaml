@@ -2,8 +2,11 @@ name: "Deploy to NuGet"
 
 on:
   push:
-    tags:
-    - '*'
+    branches:
+      - '*'  # Tüm dallarda yapılan push'lar tetikler
+    paths:
+      - '**/*'  # Tüm dosya değişiklikleri workflow'u tetikler
+
 
 env:
   PROJECT_PATH: 'ConsoleApp12/ConsoleApp12.csproj'
