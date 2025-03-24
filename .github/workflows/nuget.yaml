@@ -46,6 +46,14 @@ jobs:
       - name: Build LinqApi Project
         run: dotnet build ConsoleApp12/ConsoleApp12.csproj --configuration Release --no-restore
 
+      - name: Get Version
+        run: |
+              VERSION=${{ steps.version.outputs.version-without-v }}
+              if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$ ]]; then
+                VERSION="1.0.0"
+              fi
+              echo "Final Version: $VERSION"
+              
       - name: Pack NuGet Package
         run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
 
