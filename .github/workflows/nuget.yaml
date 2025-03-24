@@ -33,13 +33,13 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Restore Dependencies
-        run: dotnet restore src/Core/LinqApi/LinqApi.csproj
+        run: dotnet restore ConsoleApp12/ConsoleApp12/ConsoleApp12.csproj
 
       - name: Build LinqApi Project
-        run: dotnet build src/Core/LinqApi/LinqApi.csproj --configuration Release --no-restore
+        run: dotnet build ConsoleApp12/ConsoleApp12/ConsoleApp12.csproj --configuration Release --no-restore
 
       - name: Pack NuGet Package
-        run: dotnet pack src/Core/LinqApi/LinqApi.csproj --configuration Release --no-build -o ./nupkg /p:PackageVersion=${{ env.VERSION }}
+        run: dotnet pack ConsoleApp12/ConsoleApp12/ConsoleApp12.csproj --configuration Release --no-build -o ./nupkg /p:PackageVersion=${{ env.VERSION }}
 
       - name: Publish NuGet Package
         run: dotnet nuget push ./nupkg/*.nupkg --source "github" --api-key ${{ secrets.GH_TOKEN }}
